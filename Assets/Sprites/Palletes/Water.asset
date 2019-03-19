@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 13312, guid: 0000000000000000e000000000000000, type: 0}
-  m_Name: Tileset_3
+  m_Name: Water
   m_EditorClassIdentifier: 
   m_Sprite: {fileID: 21300006, guid: 45c6f285919b5644caf9144dfd29e593, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
