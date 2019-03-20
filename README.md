@@ -1,3 +1,3 @@
 # RPGProject
 
-2D MMO WIP
+[Client](https://github.com/valkyrienyanko/RPGProject/releases)
