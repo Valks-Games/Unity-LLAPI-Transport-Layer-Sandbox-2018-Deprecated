@@ -1,4 +1,3 @@
 # RPGProject
-Main RPG Project
 
-TODO: Learn Unitys Low Level Networking API
+2D MMO WIP
