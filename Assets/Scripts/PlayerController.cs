@@ -1,13 +1,9 @@
 ﻿using UnityEngine;
 using UnityEngine.Tilemaps;
-using UnityEngine.Networking;
 
-public class PlayerController : NetworkBehaviour
+public class PlayerController : MonoBehaviour
 {
-    public GameObject gridGameObject;
-
-    public float maxSpeed = 25f;
-    public float speed = 500f;
+    //public GameObject gridGameObject;
 
     private Rigidbody2D rb;
     private Grid grid;
@@ -20,17 +16,13 @@ public class PlayerController : NetworkBehaviour
 
     void Start()
     {
-        Debug.Log(localPlayerAuthority);
-        if (!localPlayerAuthority) return;
         rb = GetComponent<Rigidbody2D>();
-        grid = gridGameObject.GetComponent<Grid>();
-        tilemap = grid.GetComponentInChildren<Tilemap>();
+        //grid = gridGameObject.GetComponent<Grid>();
+        //tilemap = grid.GetComponentInChildren<Tilemap>();
     }
 
     void Update()
     {
-        if (!localPlayerAuthority) return;
-
         if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow)) movingUp = true;
         if (Input.GetKeyUp(KeyCode.W) || Input.GetKeyUp(KeyCode.UpArrow)) movingUp = false;
 
@@ -55,8 +47,6 @@ public class PlayerController : NetworkBehaviour
     }
 
     void FixedUpdate() {
-        if (!localPlayerAuthority) return;
-
         if (movingUp)
         {
             rb.AddForce(new Vector2(0, 5));
