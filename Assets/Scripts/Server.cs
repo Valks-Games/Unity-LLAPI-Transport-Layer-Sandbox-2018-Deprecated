@@ -100,6 +100,7 @@ public class Server : MonoBehaviour
             lastMovementUpdate = Time.time;
             string m = "ASKPOSITION|";
             foreach (ServerClient sc in clients) {
+                if (sc.playerName.Equals("TEMP")) continue;
                 m += sc.connectionId.ToString() + '%' + sc.position.x.ToString() + '%' + sc.position.y.ToString() + '|';
             }
             m = m.Trim('|');
