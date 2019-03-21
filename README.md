@@ -7,7 +7,9 @@ Server status: offline. (In the future you will know on the client if the main s
 ### Want to help contribute?
 
 #### Scripting
-Learn more about Unity's Low Level API (LLAPI) Network with this [1 hour tutorial video](https://www.youtube.com/watch?v=qGkkaNkq8co). 
+Learn more about Unity's Low Level API (LLAPI) Network with this [youtube tutorial](https://www.youtube.com/watch?v=qGkkaNkq8co).
+
+Take a look at the projects issues.
 
 #### Sprites
 The RPG will need a bigger tileset for the environment and player animations etc.
