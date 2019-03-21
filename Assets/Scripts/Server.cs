@@ -33,6 +33,7 @@ public class Server : MonoBehaviour
 
     private void Start()
     {
+        Application.targetFrameRate = 60;
         NetworkTransport.Init();
         ConnectionConfig cc = new ConnectionConfig();
 
@@ -69,7 +70,7 @@ public class Server : MonoBehaviour
                 break;
             case NetworkEventType.DataEvent:
                 string msg = Encoding.Unicode.GetString(recBuffer, 0, dataSize);
-                Debug.Log("Recieving from: " + connectionId + " has sent: " + msg);
+                //Debug.Log("Recieving from: " + connectionId + " has sent: " + msg);
                 string[] splitData = msg.Split('|');
 
                 switch (splitData[0])
@@ -151,7 +152,7 @@ public class Server : MonoBehaviour
     }
 
     private void Send(string message, int channelId, List<ServerClient> c) {
-        Debug.Log("Sending: " + message);
+        //Debug.Log("Sending: " + message);
         byte[] msg = Encoding.Unicode.GetBytes(message);
         foreach (ServerClient sc in c) {
             NetworkTransport.Send(hostId, sc.connectionId, channelId, msg, message.Length * sizeof(char), out error);

@@ -37,6 +37,11 @@ public class Client : MonoBehaviour
 
     private string playerName;
 
+    private void Start()
+    {
+        Application.targetFrameRate = 60;
+    }
+
     public void Connect()
     {
         // Does the player have a name?
@@ -82,7 +87,7 @@ public class Client : MonoBehaviour
         {
             case NetworkEventType.DataEvent:
                 string msg = Encoding.Unicode.GetString(recBuffer, 0, dataSize);
-                Debug.Log("Receiving: " + msg);
+                //Debug.Log("Receiving: " + msg);
                 string[] splitData = msg.Split('|');
 
                 switch (splitData[0]) {
@@ -171,7 +176,7 @@ public class Client : MonoBehaviour
 
     private void Send(string message, int channelId)
     {
-        Debug.Log("Sending: " + message);
+        //Debug.Log("Sending: " + message);
         byte[] msg = Encoding.Unicode.GetBytes(message);
         NetworkTransport.Send(hostId, connectionId, channelId, msg, message.Length * sizeof(char), out error);
     }
