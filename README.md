@@ -7,6 +7,8 @@ Server status: offline. (In the future you will know on the client if the main s
 ### Want to help contribute?
 
 #### Scripting
+If you want to integrate github and unity together, there's this you could try out. https://unity.github.com
+
 Learn more about Unity's Low Level API (LLAPI) Network with this [youtube tutorial](https://www.youtube.com/watch?v=qGkkaNkq8co).
 
 Take a look at the projects issues.
