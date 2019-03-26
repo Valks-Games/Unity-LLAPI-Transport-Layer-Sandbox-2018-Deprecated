@@ -3,6 +3,7 @@ using UnityEngine.Networking;
 using UnityEngine.UI;
 using System.Text;
 using System.Collections.Generic;
+using System.Collections;
 
 #pragma warning disable
 public class Player
@@ -16,6 +17,7 @@ public class Client : MonoBehaviour
 {
     public GameObject playerPrefab;
     public Dictionary<int, Player> players = new Dictionary<int, Player>();
+    public Dictionary<int, Vector2> prevPos = new Dictionary<int, Vector2>();
 
     private const int MAX_CONNECTIONS = 100;
 
@@ -36,6 +38,9 @@ public class Client : MonoBehaviour
     private byte error;
 
     private string playerName;
+
+    public Camera mainCamera;
+    private Camera playerCamera;
 
     private void Start()
     {
@@ -85,12 +90,15 @@ public class Client : MonoBehaviour
 
         switch (recData)
         {
+            case NetworkEventType.Nothing:
+                break;
             case NetworkEventType.DataEvent:
                 string msg = Encoding.Unicode.GetString(recBuffer, 0, dataSize);
                 //Debug.Log("Receiving: " + msg);
                 string[] splitData = msg.Split('|');
 
-                switch (splitData[0]) {
+                switch (splitData[0])
+                {
                     case "ASKNAME":
                         OnAskName(splitData);
                         break;
@@ -128,6 +136,7 @@ public class Client : MonoBehaviour
                 SpawnPlayer(d[0], int.Parse(d[1]));
         }
     }
+
     private void OnAskPosition(string[] data) {
         if (!isStarted)
             return;
@@ -142,7 +151,19 @@ public class Client : MonoBehaviour
                 Vector2 position = Vector2.zero;
                 position.x = float.Parse(d[1]);
                 position.y = float.Parse(d[2]);
-                players[int.Parse(d[0])].avatar.transform.position = position;
+
+                // Update all the other players positions!
+                if (players.ContainsKey(int.Parse(d[0]))) {
+                    if (prevPos.ContainsKey(int.Parse(d[0])))
+                    {
+                        players[int.Parse(d[0])].avatar.transform.position = Vector2.Lerp(prevPos[int.Parse(d[0])], position, 0.1f);
+                    }
+                    else {
+                        players[int.Parse(d[0])].avatar.transform.position = position;
+                    }
+                 
+                    prevPos[int.Parse(d[0])] = position;
+                }
             }
         }
 
@@ -151,6 +172,7 @@ public class Client : MonoBehaviour
         string m = "MYPOSITION|" + myPosition.x.ToString() + '|' + myPosition.y.ToString();
         Send(m, unreliableChannel);
     }
+
     private void SpawnPlayer(string playerName, int conId) {
         GameObject go = Instantiate(playerPrefab) as GameObject;
 
@@ -158,8 +180,12 @@ public class Client : MonoBehaviour
         if (conId == ourClientId) {
             // Add mobility
             go.AddComponent<PlayerController>();
+            playerCamera = go.transform.Find("Camera").GetComponent<Camera>();
             GameObject.Find("Canvas").SetActive(false);
             isStarted = true;
+
+            mainCamera.enabled = false;
+            playerCamera.enabled = true;
         }
 
         Player p = new Player();
@@ -169,6 +195,7 @@ public class Client : MonoBehaviour
         p.avatar.GetComponentInChildren<TextMesh>().text = playerName;
         players.Add(conId, p);
     }
+
     private void PlayerDisconnected(int conId) {
         Destroy(players[conId].avatar);
         players.Remove(conId);

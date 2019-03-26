@@ -27,7 +27,7 @@ public class Server : MonoBehaviour
     private byte error;
 
     private float lastMovementUpdate;
-    private float movementUpdateRate = 0.03f;
+    private float movementUpdateRate = 0.30f; //1.00f = 100ms
 
     private List<ServerClient> clients = new List<ServerClient>();
 
